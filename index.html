@@ -1,0 +1,3510 @@
+<!DOCTYPE html> 
+<html lang="fr"> 
+<head> 
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<title>FrenchModding</title> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> 
+
+<!-- ===== PRÉCHARGEMENT DES IMAGES ===== -->
+<link rel="preload" as="image" href="https://i.ibb.co/m54KVKZD/image.png">
+<link rel="preload" as="image" href="https://i.ibb.co/HDPqQdhD/Capture-decran-2025-11-22-154503.png">
+<link rel="preload" as="image" href="https://i.ibb.co/V0DB71BX/image.png">
+<link rel="preload" as="image" href="https://i.ibb.co/ZzKcTgQL/Whats-App-Image-2026-02-01-at-13-50-09.jpg">
+<link rel="preload" as="image" href="https://i.ibb.co/39GgpNtp/Capture-d-cran-2026-01-30-213349.png">
+<link rel="preload" as="image" href="https://i.ibb.co/s0Dg7vR/Capture-d-cran-2026-01-30-213407.png">
+<link rel="preload" as="image" href="https://i.ibb.co/d4Gd7TwG/Capture-d-cran-2026-01-31-221525.png">
+<link rel="preload" as="image" href="https://i.ibb.co/hJ28V1ns/Capture-d-cran-2026-01-31-221545.png">
+<link rel="preload" as="image" href="https://i.ibb.co/gFrXGkpq/Capture-d-cran-2026-01-31-221614.png">
+<link rel="preload" as="image" href="https://i.ibb.co/27McJfXQ/Capture-d-cran-2026-01-29-113653.png">
+<link rel="preload" as="image" href="https://i.ibb.co/67HXnFY0/image.png">
+<link rel="preload" as="image" href="https://i.ibb.co/gFF9GQXP/Whats-App-Image-2026-01-31-at-22-04-25.jpg">
+<link rel="preload" as="image" href="https://i.ibb.co/7JhWJzM0/Capture-d-cran-2026-02-01-134745.png">
+
+<style> 
+/* ===== RESET ===== */ 
+* { margin: 0; padding: 0; box-sizing: border-box; } 
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background: #000; } 
+
+/* ===== HERO ===== */ 
+.hero { height: 100vh; background: url("https://i.ibb.co/m54KVKZD/image.png") center/cover no-repeat; position: relative; overflow: hidden; } 
+.hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient( to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.35) ); z-index: 1; } 
+
+/* ===== NAVBAR ===== */
+nav {
+    position: fixed;
+    top: 30px;
+    left: 35px;
+    right: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 26px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid rgba(255,255,255,0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    z-index: 30000;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+nav.hidden {
+    transform: translateY(-150px);
+}
+
+.logo {
+    color: #fff;
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 18px;
+    flex: 1;
+    justify-content: center;
+}
+
+.nav-links li {
+    position: relative;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 12px;
+    border: 1.5px solid transparent;
+    transition: all .25s ease;
+    cursor: pointer;
+    display: block;
+}
+
+.nav-links a:hover {
+    transform: scale(1.12);
+    border-color: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.08);
+}
+
+/* ===== DROPDOWN MENU VÉHICULE ===== */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 15px;
+
+    /* Liquid Glass */
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(25px) saturate(180%) contrast(110%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%) contrast(110%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    border-radius: 16px;
+
+    min-width: 220px;
+    padding: 12px 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 30001;
+}
+
+/* Affichage du menu au hover */
+.nav-links li:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    margin-top: 10px;
+}
+
+/* Affichage du menu au clic (classe active) */
+.dropdown-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(1px);
+    margin-top: 10px;
+}
+
+.dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-menu li {
+    margin: 0;
+}
+
+.dropdown-menu a {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 400;
+    transition: all 0.2s ease;
+    border: none;
+    border-radius: 0;
+}
+
+.dropdown-menu a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.02);
+    padding-left: 25px;
+}
+
+.dropdown-menu .icon {
+    margin-right: 10px;
+    font-size: 12px;
+    width: 16px;
+    text-align: center;
+}
+
+/* Séparateur visuel */
+.dropdown-menu li + li {
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.social {
+    display: flex;
+    gap: 18px;
+}
+
+.social a {
+    color: #fff;
+    font-size: 22px;
+    transition: transform .25s ease;
+}
+
+.social a:hover {
+    transform: scale(1.25);
+}
+
+/* ===== MENU HAMBURGER ===== */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* ===== MENU MOBILE ===== */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(80, 80, 80, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    z-index: 99999;
+    display: none;
+    padding: 60px 30px 40px 30px;
+    overflow-y: auto;
+}
+
+.mobile-menu.active {
+    display: block;
+}
+
+.mobile-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mobile-menu > ul > li {
+    margin-bottom: 0;
+    position: relative;
+}
+
+.mobile-menu > ul > li > a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    display: block;
+    padding: 12px 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.mobile-menu > ul > li > a:hover {
+    opacity: 0.7;
+}
+
+/* Dropdown dans le menu mobile - MONTÉ DE 2.5CM */
+.mobile-menu .dropdown-menu {
+    max-height: 0;
+    overflow: hidden;
+    background: rgba(100, 100, 100, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    margin: -3.3cm 0 10px 1.5cm;
+    padding: 0 15px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu .dropdown-menu.active {
+    max-height: 1000px;
+    padding: 15px;
+}
+
+.mobile-menu .dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-menu .dropdown-menu ul li {
+    margin-bottom: 0;
+}
+
+.mobile-menu .dropdown-menu ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 0;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu .dropdown-menu ul li a:hover {
+    opacity: 0.7;
+}
+
+.close-menu {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 35px;
+    color: #fff;
+    cursor: pointer;
+    z-index: 100000;
+    font-weight: 300;
+    line-height: 1;
+}
+
+/* ===== MENU PHOTOS PLEIN ÉCRAN ===== */
+.photos-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #1a1a1a;
+    z-index: 10000;
+    display: none;
+    overflow-y: auto;
+    padding-top: 120px;
+    padding-bottom: 60px;
+}
+
+.photos-menu.active {
+    display: block;
+}
+
+.photos-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.photos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.photo-item {
+    width: 100%;
+    height: 250px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.photo-item:hover {
+    transform: scale(1.05);
+}
+
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ===== HERO CONTENT ===== */ 
+.hero-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; } 
+.hero-content h1 { color: #fff; font-size: clamp(42px, 6vw, 80px); font-weight: 800; text-shadow: 0 6px 25px rgba(0,0,0,0.8); } 
+.hero-content p { margin-top: 18px; color: #f1f1f1; font-size: clamp(16px, 2vw, 22px); padding: 12px 22px; border-radius: 16px; background: rgba(0,0,0,0.35); backdrop-filter: blur(6px); } 
+
+/* ================================================= */ 
+/* ================= SERVICES ====================== */ 
+/* ================================================= */ 
+.services { position: relative; min-height: 100vh; background: url("https://i.ibb.co/HDPqQdhD/Capture-decran-2025-11-22-154503.png") center/cover no-repeat; padding: 120px 40px; } 
+.services::before { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0.55); z-index: 1; } 
+.services-content { position: relative; z-index: 2; max-width: 1200px; margin: auto; text-align: center; color: #fff; } 
+.services-content h2 { font-size: clamp(36px, 5vw, 60px); font-weight: 800; margin-bottom: 14px; } 
+.services-content p { font-size: 18px; opacity: .9; margin-bottom: 60px; } 
+
+/* ===== CARDS ===== */ 
+.services-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 28px; margin-top: 2cm; } 
+.service-card { background: #fff; color: #000; padding: 34px 26px; border-radius: 22px; box-shadow: 0 20px 40px rgba(0,0,0,0.35); transition: transform .35s ease; } 
+.service-card:hover { transform: translateY(-10px); } 
+.service-card i { font-size: 32px; color: #6c63ff; margin-bottom: 14px; } 
+.service-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; } 
+.service-card p { font-size: 14px; line-height: 1.6; color: #444; } 
+
+/* ================================================= */ 
+/* ================= CONFIANCE ===================== */ 
+/* ================================================= */ 
+.confiance { position: relative; min-height: 100vh; background: url("https://i.ibb.co/V0DB71BX/image.png") center/cover no-repeat; padding: 120px 40px; overflow: hidden; } 
+.confiance::before { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0.65); z-index: 1; } 
+.confiance-content { position: relative; z-index: 2; max-width: 1400px; margin: auto; } 
+.confiance-content h2 { color: #fff; font-size: clamp(36px, 5vw, 56px); font-weight: 800; text-align: center; margin-bottom: 80px; } 
+
+/* ===== CAROUSEL ===== */ 
+.carousel-container { position: relative; width: 100%; overflow: hidden; margin-top: calc(50vh - 220px); } 
+.carousel-track { display: flex; gap: 24px; animation: scrollCarousel 30s linear infinite; will-change: transform; } 
+.carousel-track:hover { animation-play-state: paused; } 
+@keyframes scrollCarousel { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } } 
+
+/* ===== CARTES ===== */ 
+.server-card { min-width: 280px; background: #fff; border-radius: 24px; padding: 40px 30px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.4); position: relative; flex-shrink: 0; color: #000; display: inline-block; text-decoration: none; } 
+.server-card.featured { background: #fff; transform: scale(1.08); } 
+.partner-badge { position: absolute; top: 16px; right: 16px; background: #4A9EFF; color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; } 
+.server-logo { width: 90px; height: 90px; margin: 0 auto 20px; border-radius: 50%; background: center/cover; border: 4px solid #f0f0f0; box-shadow: 0 8px 20px rgba(0,0,0,0.2); } 
+.server-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; color: #000; } 
+.server-card p { font-size: 15px; color: #666; } 
+
+/* ================================================= */ 
+/* ================= FOOTER ======================== */ 
+/* ================================================= */ 
+.footer { background: #1a1a1a; padding: 60px 40px 30px; color: #fff; } 
+.footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start; } 
+.footer-left { display: flex; flex-direction: column; gap: 20px; } 
+.footer-logo-container { display: flex; align-items: center; gap: 15px; } 
+.footer-logo-img { width: 80px; height: 80px; border-radius: 50%; background: url("https://i.ibb.co/ZzKcTgQL/Whats-App-Image-2026-02-01-at-13-50-09.jpg") center/cover; border: 3px solid #fff; } 
+.footer-title { font-size: 28px; font-weight: 700; color: #fff; margin: 0; } 
+.footer-description { font-size: 15px; line-height: 1.6; color: #b0b0b0; margin: 0; } 
+.footer-right { display: flex; flex-direction: column; align-items: flex-end; gap: 25px; margin-top: 0.5cm; } 
+.footer-links { display: flex; flex-direction: column; gap: 12px; text-align: right; } 
+.footer-links a { color: #fff; text-decoration: none; font-size: 16px; font-weight: 500; transition: color 0.3s ease; } 
+.footer-links a:hover { color: #b0b0b0; } 
+.footer-social { display: flex; gap: 15px; } 
+.footer-social a { color: #fff; font-size: 24px; transition: all 0.3s ease; } 
+.footer-social a:hover { transform: scale(1.15); color: #b0b0b0; } 
+.footer-bottom { max-width: 1400px; margin: 40px auto 0; padding-top: 25px; border-top: 1px solid #333; text-align: left; } 
+.footer-copyright { font-size: 14px; color: #b0b0b0; font-style: italic; } 
+
+@media (max-width: 768px) { 
+    nav { top: 15px; left: 15px; right: 15px; padding: 16px 20px; } 
+    .nav-links, .social { display: none; } 
+    .menu-toggle { display: flex; } 
+    .server-card { min-width: 240px; } 
+    .services { padding: 80px 20px; } 
+    .confiance { padding: 80px 20px; } 
+    .services-content p { font-size: 16px; margin-bottom: 40px; } 
+    .footer { padding: 40px 20px 20px; } 
+    .footer-content { grid-template-columns: 1fr; gap: 40px; } 
+    .footer-right { justify-content: space-between; flex-direction: column; gap: 30px; } 
+    .footer-links { text-align: left; } 
+    .footer-bottom { text-align: center; } 
+    .photos-container { padding: 0 20px; } 
+    .photos-grid { grid-template-columns: 1fr; gap: 20px; } 
+    .photo-item { height: 200px; }
+} 
+
+/* ===== LIGHTBOX SIMPLE ===== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  z-index: 25000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox.active {
+  display: flex;
+}
+
+.lightbox img {
+  width: 80vw;
+  height: 80vh;
+  object-fit: contain;
+  border-radius: 18px;
+  box-shadow: 0 45px 120px rgba(0,0,0,0.95);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  font-size: 40px;
+  color: #fff;
+  cursor: pointer;
+  z-index: 25001;
+}
+
+.lightbox-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 70px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+  z-index: 25001;
+}
+
+.lightbox-arrow.left { left: 40px; }
+.lightbox-arrow.right { right: 40px; }
+
+.lightbox-thumbs {
+  position: absolute;
+  bottom: 30px;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  max-width: 90%;
+}
+
+.lightbox-thumbs img {
+  width: 90px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 10px;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.lightbox-thumbs img.active {
+  opacity: 1;
+  outline: 2px solid #fff;
+}
+
+.lightbox img {
+  transition: transform 0.45s ease, opacity 0.45s ease;
+}
+
+.slide-left-enter {
+  transform: translateX(-80px);
+  opacity: 0;
+}
+
+.slide-right-enter {
+  transform: translateX(80px);
+  opacity: 0;
+}
+
+.slide-active {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* ===== MENU GRATUIT – CENTRAGE PARFAIT ===== */
+.gratuit-menu {
+    position: fixed;
+    inset: 0;
+    background: #2b2b2b;
+    z-index: 9999;
+    display: none;
+}
+
+.gratuit-menu.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenu parfaitement centré */
+.gratuit-empty {
+    text-align: center;
+    color: #f2f2f2;
+    transform: translateY(38px);
+}
+
+/* Icône panier */
+.gratuit-empty i {
+    font-size: 80px;
+    margin-bottom: 22px;
+    opacity: 0.85;
+}
+
+/* Texte principal */
+.gratuit-empty p {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.35;
+    margin: 0;
+}
+
+/* "pour le moment." */
+.gratuit-empty span {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+/* ===== MENU SCRIPT ===== */
+.script-menu {
+    position: fixed;
+    inset: 0;
+    background: #1f1f1f;
+    z-index: 10000;
+    display: none;
+    overflow-y: auto;
+    padding-top: 120px;
+}
+.script-menu.active {
+    display: block;
+}
+
+.script-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px 600px;
+}
+
+.script-container h2 {
+    color: #fff;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    text-align: left;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+/* GRID PRODUITS */
+.script-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 400px));
+    gap: 40px;
+    justify-content: flex-start;
+    transform: translateX(0);
+}
+
+/* CARD */
+.script-card {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.script-card:hover {
+    transform: scale(1.05);
+}
+
+.script-card img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+}
+
+/* INFOS */
+.script-info {
+    padding: 18px;
+    text-align: center;
+}
+
+.script-info strong {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 6px;
+    color: #000;
+}
+
+.script-info span {
+    font-size: 15px;
+    color: #000;
+}
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 768px) {
+    .script-menu {
+        padding-top: 90px;
+    }
+    
+    .script-container {
+        padding: 0 20px 400px;
+    }
+    
+    .script-container h2 {
+        font-size: 20px;
+        margin-left: 0;
+        margin-bottom: 25px;
+        text-align: left;
+    }
+    
+    .script-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        transform: translateY(0);
+    }
+    
+    .script-card {
+        border-radius: 15px;
+    }
+    
+    .script-card img {
+        height: 180px;
+    }
+    
+    .script-info {
+        padding: 15px;
+    }
+    
+    .script-info strong {
+        font-size: 16px;
+    }
+    
+    .script-info span {
+        font-size: 14px;
+    }
+}
+
+/* ===== MENU PRODUIT SCRIPT ===== */
+.script-product-menu {
+    position: fixed;
+    inset: 0;
+    background: #1c1c1c;
+    z-index: 20000;
+    display: none;
+    overflow-y: auto;
+    padding-top: 120px;
+}
+
+.script-product-menu.active {
+    display: block;
+}
+
+.product-wrapper {
+    max-width: 1600px;
+    margin: auto;
+    padding: 40px 60px 80px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 80px;
+}
+
+/* GALERIE */
+.product-gallery {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-main {
+    position: relative;
+    width: 100%;
+    height: 520px;
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.product-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gallery-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 36px;
+    background: rgba(0,0,0,0.55);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+}
+
+.gallery-arrow.left { left: 20px; }
+.gallery-arrow.right { right: 20px; }
+
+.product-thumbs {
+    margin-top: 18px;
+    display: flex;
+    gap: 14px;
+}
+
+.product-thumbs img {
+    width: 110px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 14px;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.product-thumbs img.active {
+    opacity: 1;
+    outline: 2px solid #fff;
+}
+
+/* INFOS */
+.product-info {
+    color: #fff;
+}
+
+.product-info h1 {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.product-price {
+    font-size: 22px;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.product-description p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 18px;
+    color: #ddd;
+}
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 768px) {
+    .script-product-menu {
+        padding-top: 80px;
+    }
+    
+    .product-wrapper {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 30px;
+    }
+    
+    .product-main {
+        height: 280px;
+        border-radius: 18px;
+    }
+    
+    .gallery-arrow {
+        width: 45px;
+        height: 45px;
+        font-size: 28px;
+    }
+    
+    .gallery-arrow.left { left: 15px; }
+    .gallery-arrow.right { right: 15px; }
+    
+    .product-thumbs {
+        display: none;
+    }
+    
+    .product-info h1 {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        text-align: center;
+    }
+    
+    .product-price {
+        font-size: 20px;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+    
+    .product-description {
+        padding: 0 10px;
+    }
+    
+    .product-description p {
+        font-size: 14px;
+        line-height: 1.7;
+        text-align: center;
+        margin-bottom: 15px;
+        color: #e0e0e0;
+    }
+}
+
+/* ===== MENU CGU PLEIN ÉCRAN ===== */
+.cgu-menu {
+    position: fixed;
+    inset: 0;
+    background: #404040;
+    z-index: 20000;
+    display: none;
+    overflow-y: auto;
+    padding: 80px 60px;
+}
+
+.cgu-menu.active {
+    display: block;
+}
+
+.cgu-close {
+    position: fixed;
+    top: 30px;
+    right: 40px;
+    font-size: 40px;
+    color: #fff;
+    cursor: pointer;
+    z-index: 20001;
+    transition: transform 0.3s ease;
+}
+
+.cgu-close:hover {
+    transform: scale(1.15);
+}
+
+.cgu-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #fff;
+}
+
+.cgu-content h1 {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.cgu-content h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.cgu-content h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    color: #fff;
+}
+
+.cgu-content p {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: #e0e0e0;
+}
+
+@media (max-width: 768px) {
+    .cgu-menu {
+        padding: 60px 30px;
+    }
+    
+    .cgu-close {
+        top: 20px;
+        right: 25px;
+        font-size: 35px;
+    }
+}
+
+/* ===== MENU CGV ===== */
+.cgv-menu {
+    position: fixed;
+    inset: 0;
+    background: #404040;
+    z-index: 20000;
+    display: none;
+    overflow-y: auto;
+    padding: 80px 60px;
+}
+
+.cgv-menu.active {
+    display: block;
+}
+
+.cgv-close {
+    position: fixed;
+    top: 30px;
+    right: 40px;
+    font-size: 40px;
+    color: #fff;
+    cursor: pointer;
+    z-index: 20001;
+    transition: transform 0.3s ease;
+}
+
+.cgv-close:hover {
+    transform: scale(1.15);
+}
+
+.cgv-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #fff;
+}
+
+.cgv-content h1 {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.cgv-content h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    color: #fff;
+}
+
+.cgv-content p {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: #e0e0e0;
+}
+
+@media (max-width: 768px) {
+    .cgv-menu {
+        padding: 60px 30px;
+    }
+    
+    .cgv-close {
+        top: 20px;
+        right: 25px;
+        font-size: 35px;
+    }
+}
+
+/* ===== MENU INFORMATION ===== */
+.info-menu {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 29999;
+    display: none;
+    overflow-y: auto;
+}
+
+.info-menu.active {
+    display: block;
+}
+
+/* SECTION PROFILS */
+.info-profiles {
+    min-height: 100vh;
+    background: url('https://i.ibb.co/27McJfXQ/Capture-d-cran-2026-01-29-113653.png') center center / cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* TITRE "Notre équipe" */
+.info-title {
+    color: #fff;
+    font-size: clamp(48px, 6vw, 80px);
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 80px;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.8);
+}
+
+.info-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 200px;
+    padding: 0 40px;
+}
+
+.info-card {
+    text-align: center;
+    color: #fff;
+}
+
+/* ===== RESPONSIVE MOBILE POUR MENU INFORMATION ===== */
+@media (max-width: 768px) {
+    .info-profiles {
+        padding: 60px 20px;
+        min-height: auto;
+    }
+    
+    .info-title {
+        font-size: 32px;
+        margin-bottom: 40px;
+    }
+    
+    .info-content {
+        flex-direction: column;
+        gap: 50px;
+        padding: 0 20px;
+    }
+    
+    .avatar {
+        width: 180px;
+        height: 180px;
+        margin-bottom: 20px;
+    }
+    
+    .info-card h2 {
+        font-size: 28px;
+        margin-bottom: 8px;
+    }
+    
+    .info-card p {
+        font-size: 18px;
+    }
+}
+
+/* AVATAR AVEC BORDURE BLEU/BLANC/ROUGE */
+.avatar {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    padding: 0;
+    margin: 0 auto 30px;
+    overflow: hidden;
+    border: 8px solid;
+    border-color: #0055A4 #fff #EF4135;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.info-card h2 {
+    font-size: 52px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    text-shadow: 0 3px 10px rgba(0,0,0,0.9);
+}
+
+.info-card p {
+    font-size: 24px;
+    font-weight: 600;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+
+/* ===== SECTION LOGICIELS (3 EN HAUT, 2 EN BAS CENTRÉES) ===== */
+.info-menu .logiciels {
+    position: relative;
+    min-height: calc(100vh - 400px + 150px); /* + 4 cm */
+    background: url("https://i.ibb.co/7JhWJzM0/Capture-d-cran-2026-02-01-134745.png") center / cover no-repeat;
+    padding: 110px 40px 190px; /* 40px + 150px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-menu .logiciels::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1;
+}
+
+.logiciels-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1300px;
+    margin: auto;
+    text-align: center;
+}
+
+.logiciels-content h2 {
+    color: #fff;
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 800;
+    margin-bottom: 65px;
+    letter-spacing: 2px;
+}
+
+.logiciels-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 35px;
+    max-width: 1100px;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.logiciel-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 35px 25px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    width: calc(33.333% - 24px);
+}
+
+.logiciel-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
+}
+
+.logiciel-icon {
+    width: 85px;
+    height: 85px;
+    margin: 0 auto 22px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    color: #fff;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+}
+
+.logiciel-card h3 {
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #000;
+}
+
+.logiciel-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    .info-menu .logiciels {
+        padding: 70px 20px;
+    }
+
+    .logiciels-grid {
+        flex-direction: column;
+    }
+    
+    .logiciel-card {
+        width: 100%;
+    }
+}
+
+/* ===== NAVBAR SLIDE EFFECT ===== */
+#navbar {
+    transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+#navbar.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+/* ===== RESPONSIVE MOBILE POUR MENU INFORMATION ===== */
+@media (max-width: 768px) {
+    .info-profiles {
+        padding: 60px 20px;
+        min-height: auto;
+    }
+    
+    .info-title {
+        font-size: 32px;
+        margin-bottom: 40px;
+        margin-top: 0.5cm;
+    }
+    
+    .info-content {
+        flex-direction: column;
+        gap: 50px;
+        align-items: center;
+    }
+    
+    .avatar {
+        width: 180px;
+        height: 180px;
+        margin-bottom: 20px;
+    }
+    
+    .info-card h2 {
+        font-size: 28px;
+        margin-bottom: 8px;
+    }
+    
+    .info-card p {
+        font-size: 18px;
+    }
+}
+
+/* ===== VIEWER IMAGE PRODUIT ===== */
+.product-viewer {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  z-index: 35000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-viewer.active {
+  display: flex;
+}
+
+.product-viewer img {
+  width: 85vw;
+  height: 85vh;
+  object-fit: contain;
+  border-radius: 18px;
+  box-shadow: 0 45px 120px rgba(0,0,0,0.95);
+}
+
+.close-viewer {
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  font-size: 40px;
+  color: #fff;
+  cursor: pointer;
+  z-index: 35001;
+}
+
+.viewer-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 70px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+  z-index: 35001;
+}
+
+.viewer-arrow.left { left: 40px; }
+.viewer-arrow.right { right: 40px; }
+
+
+/* ===== MENU NOIR ===== */
+.black-menu {
+    position: fixed;
+    inset: 0;
+    background: black;
+    overflow: hidden;
+    z-index: 9999;
+}
+
+/* ===== CROIX FERMETURE MENU NOIR ===== */
+.black-menu-close {
+    position: fixed;
+    top: 30px;
+    right: 40px;
+    font-size: 50px;
+    color: #fff;
+    cursor: pointer;
+    z-index: 9999999;
+    transition: transform 0.3s ease;
+    font-weight: 300;
+}
+
+.black-menu-close:hover {
+    transform: scale(1.15) rotate(90deg);
+}
+
+/* ===== TEXTE DE BIENVENUE ===== */
+.welcome-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    text-align: center;
+    color: #eaeaea;
+    opacity: 0;
+    transition: opacity 1s ease, transform 1s ease;
+    z-index: 10000;
+}
+
+.welcome-text.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.welcome-text h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.3;
+    margin: 0;
+}
+
+/* ===== TEXTE ACTION BAS ÉCRAN ===== */
+.bottom-text {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    z-index: 10001;
+    opacity: 0.85;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.bottom-text:hover {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.05);
+}
+
+/* ===== CŒURS VOLANTS ===== */
+.heart {
+    position: absolute;
+    bottom: -80px;
+    pointer-events: none;
+    opacity: 0;
+    animation-name: flyUp;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes flyUp {
+    0% {
+        transform: translateY(0) scale(0.7) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-120vh) scale(1.1) rotate(15deg);
+        opacity: 0.9;
+    }
+}
+
+/* ===== RESPONSIVE MENU NOIR - TEXTE SEULEMENT ===== */
+@media (max-width: 768px) {
+    .welcome-text {
+        transform: translate(-50%, -50%) scale(0.5);
+        padding: 0 20px;
+    }
+    
+    .welcome-text.show {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    
+    .welcome-text h1 {
+        font-size: 2.5rem;
+        line-height: 1.2;
+    }
+}
+</style>  
+</head> 
+<body> 
+<div class="hero"> 
+    <nav id="navbar"> 
+        <div class="logo">FrenchModding</div> 
+        <ul class="nav-links"> 
+        <li><a href="#" onclick="closePhotosMenu()">Accueil</a></li> 
+        <li><a href="#" id="photosBtn">Photos</a></li> 
+        <li>
+            <a href="#">Véhicule ▾</a>
+            <div class="dropdown-menu">
+                <ul>
+                  <li><a href="#" id="policenationaleBtn"><strong>🚔 Police Nationale</strong></a></li>
+                  <li><a href="#" id="gendarmerieBtn"><strong>👮🏻 Gendarmerie Nationale</strong></a></li>
+                  <li><a href="#" id="policeMunicipaleBtn"><strong>🚓 Police Municipale</strong></a></li>
+                  <li><a href="#" id="douaneBtn"><strong>🛃 Douane</strong></a></li>
+                  <li><a href="#" id="sapeursPompiersBtn"><strong>🚒 Sapeurs Pompiers</strong></a></li>
+                  <li><a href="#" id="samuBtn"><strong>🚑 Samu</strong></a></li>
+                  <li><a href="#" id="dirifBtn"><strong>🚧 DIRIF</strong></a></li>
+                  <li><a href="#" id="civilBtn"><strong>🚗 Civil</strong></a></li>
+                  <li><a href="#" id="autresServicesBtn"><strong>🌍 Autres Services</strong></a></li>
+                  <li><a href="#" id="packVehiculesBtn"><strong>📦 Pack Véhicules</strong></a></li>       
+                </ul>
+            </div>
+        </li>
+        <li><a href="#">Mapping</a></li> 
+        <li><a href="#">EUP</a></li> 
+        <li><a href="#">Script</a></li> 
+        <li><a href="#" id="gratuitBtn">Gratuit</a></li>
+        <li><a href="#" id="informationBtn">Information</a></li> 
+        </ul> 
+        <div class="social"> 
+        <a href="https://www.instagram.com/_frenchmodding_?igsh=dXF5N3RoNDZtOHl3" target="_blank"> <i class="fa-brands fa-instagram"></i> </a> 
+        <a href="https://www.tiktok.com/@frenchmodding_fr?is_from_webapp=1&sender_device=pc" target="_blank"> <i class="fa-brands fa-tiktok"></i> </a> 
+        <a href="https://www.youtube.com/@French_Modding" target="_blank"> <i class="fa-brands fa-youtube"></i> </a> 
+        <a href="https://discord.gg/wSVR8znQCW" target="_blank"> <i class="fa-brands fa-discord"></i> </a> 
+        </div> 
+        <div class="menu-toggle" id="menuToggle"> 
+        <span></span> <span></span> <span></span> 
+        </div> 
+        </nav> 
+        
+        <div class="mobile-menu" id="mobileMenu"> 
+            <div class="close-menu" id="closeMenu">✕</div> 
+            <ul> 
+            <li><a href="#" onclick="closePhotosMenu(); closeMenu.click();">Accueil</a></li> 
+            <li><a href="#" id="photosBtnMobile">Photos</a></li> 
+            <li>
+                <a href="#" id="vehiculeBtnMobile">Véhicule ▾</a>
+                <div class="dropdown-menu">
+                    <ul>
+                      <li><a href="#" id="policenationaleBtnMobile"><strong>🚔 Police Nationale</strong></a></li>
+                      <li><a href="#" id="gendarmerieBtnMobile"><strong>👮🏻 Gendarmerie Nationale</strong></a></li>
+                      <li><a href="#" id="policeMunicipaleBtnMobile"><strong>🚓 Police Municipale</strong></a></li>
+                      <li><a href="#" id="douaneBtnMobile"><strong>🛃 Douane</strong></a></li>
+                      <li><a href="#" id="sapeursPompiersBtnMobile"><strong>🚒 Sapeurs Pompiers</strong></a></li>
+                      <li><a href="#" id="samuBtnMobile"><strong>🚑 Samu</strong></a></li>
+                      <li><a href="#" id="dirifBtnMobile"><strong>🚧 DIRIF</strong></a></li>
+                      <li><a href="#" id="civilBtnMobile"><strong>🚗 Civil</strong></a></li>
+                      <li><a href="#" id="autresServicesBtnMobile"><strong>🌍 Autres Services</strong></a></li>
+                      <li><a href="#" id="packVehiculesBtnMobile"><strong>📦 Pack Véhicules</strong></a></li>       
+                    </ul>
+                </div>
+            </li>
+            <li><a href="#">Mapping</a></li> 
+            <li><a href="#">EUP</a></li> 
+            <li><a href="#">Script</a></li> 
+            <li><a href="#" id="gratuitBtnMobile">Gratuit</a></li>
+            <li><a href="#" id="informationBtnMobile">Information</a></li> 
+            </ul> 
+            </div>
+
+<!-- MENU NOIR -->
+<div class="black-menu" id="blackMenu">
+    <span class="black-menu-close" id="blackMenuClose">✕</span>
+
+    <!-- TEXTE BAS ÉCRAN -->
+    <div class="bottom-text" id="bottomText">
+        Clique ici !
+    </div>
+</div>
+
+<!-- AUDIO MENU NOIR -->
+<audio id="blackMenuAudio" preload="auto">
+    <source src="https://image2url.com/r2/default/videos/1769981744230-160ba203-61ff-4b66-be45-310360de777e.mp4" type="audio/mpeg">
+</audio>
+
+<div class="hero-content"> 
+<h1>FrenchModding</h1> 
+<p>Votre serveur mérite le meilleur : nous le créons.</p> 
+</div> 
+</div> 
+
+<section class="services"> 
+<div class="services-content"> 
+<h2>Nos services</h2> 
+<p>Des créations uniques pour transformer votre serveur en expérience inoubliable.</p> 
+<div class="services-cards"> 
+<div class="service-card"> 
+<i class="fa-solid fa-car"></i> 
+<h3>Véhicules</h3> 
+<p>Des véhicules entièrement personnalisés, optimisés pour la performance, afin d'offrir à vos joueurs une expérience immersive et réaliste sur votre serveur.</p> 
+</div> 
+<div class="service-card"> 
+<i class="fa-solid fa-house"></i> 
+<h3>Mappings / MLO</h3> 
+<p>Création de lieux et MLO entièrement personnalisés, optimisés pour la performance, afin de transformer votre serveur avec des environnements immersifs et uniques.</p> 
+</div> 
+<div class="service-card"> 
+<i class="fa-solid fa-shirt"></i> 
+<h3>Tenues / EUP</h3> 
+<p>Tenues et uniformes entièrement personnalisés, adaptés à votre serveur, pour immerger vos joueurs dans un univers réaliste et cohérent.</p> 
+</div> 
+<div class="service-card"> 
+<i class="fa-solid fa-code"></i> 
+<h3>Scripts</h3> 
+<p>Scripts personnalisés et optimisés pour enrichir votre serveur, ajouter des fonctionnalités uniques et offrir à vos joueurs une expérience fluide et immersive.</p> 
+</div> 
+</div> 
+</div> 
+</section> 
+
+<section class="confiance"> 
+<div class="confiance-content"> 
+<h2>Ils nous font confiance :</h2> 
+<div class="carousel-container"> 
+<div class="carousel-track" id="carouselTrack"> 
+<!-- Card 1 --> 
+<a href="https://serveur1.com" class="server-card"> 
+<div class="server-logo" style="background-image: url('https://i.ibb.co/xyz1.png');"></div> 
+<h3>???</h3> 
+<p>???</p> 
+</a> 
+<!-- Card 2 - Featured --> 
+<a href="https://serveur2.com" class="server-card featured"> 
+<span class="partner-badge">Partenaire</span> 
+<div class="server-logo" style="background-image: url('https://i.ibb.co/xyz2.png');"></div> 
+<h3>???</h3> 
+<p>???</p> 
+</a> 
+<!-- Card 3 --> 
+<a href="https://serveur3.com" class="server-card"> 
+<span class="partner-badge">Partenaire</span> 
+<div class="server-logo" style="background-image: url('https://i.ibb.co/xyz3.png');"></div> 
+<h3>???</h3> 
+<p>???</p> 
+</a> 
+<!-- Card 4 --> 
+<a href="https://serveur4.com" class="server-card"> 
+<div class="server-logo" style="background-image: url('https://i.ibb.co/xyz4.png');"></div> 
+<h3>???</h3> 
+<p>???</p> 
+</a> 
+<!-- Card 5 --> 
+<a href="https://serveur5.com" class="server-card"> 
+<span class="partner-badge">Partenaire</span> 
+<div class="server-logo" style="background-image: url('https://i.ibb.co/xyz5.png');"></div> 
+<h3>???</h3> 
+<p>???</p> 
+</a> 
+<!-- DUPLICATION POUR INFINITE SCROLL --> 
+<a href="https://serveur1.com" class="server-card"> 
+<div class="server-logo" style="background-image: url('https://i.ibb.co/xyz1.png');"></div> 
+<h3>???</h3> 
+<p>???</p> 
+</a> 
+<a href="https://serveur2.com" class="server-card featured"> 
+<span class="partner-badge">Partenaire</span> 
+<div class="server-logo" style="background-image: url('https://i.ibb.co/xyz2.png');"></div> 
+<h3>???</h3> 
+<p>???</p> 
+</a> 
+<a href="https://serveur3.com" class="server-card"> 
+<span class="partner-badge">Partenaire</span> 
+<div class="server-logo" style="background-image: url('https://i.ibb.co/xyz3.png');"></div> 
+<h3>???</h3> 
+<p>???</p> 
+</a> 
+<a href="https://serveur4.com" class="server-card"> 
+<div class="server-logo" style="background-image: url('https://i.ibb.co/xyz4.png');"></div> 
+<h3>???</h3> 
+<p>???</p> 
+</a> 
+<a href="https://serveur5.com" class="server-card"> 
+<span class="partner-badge">Partenaire</span> 
+<div class="server-logo" style="background-image: url('https://i.ibb.co/xyz5.png');"></div> 
+<h3>???</h3> 
+<p>???</p> 
+</a> 
+</div> 
+</div> 
+</div> 
+</section> 
+
+<!-- ===== MENU PHOTOS PLEIN ÉCRAN ===== -->
+<div class="photos-menu" id="photosMenu">
+  <div class="photos-container">
+    <div class="photos-grid">
+      <div class="photo-item"><img src="https://i.ibb.co/m54KVKZD/image.png" alt="Photo 1"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LIGHTBOX PHOTOS ===== -->
+<div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightboxClose">✕</span>
+  
+    <div class="lightbox-arrow left" id="prevPhoto">❮</div>
+    <img id="lightboxImage" src="" alt="Photo">
+    <div class="lightbox-arrow right" id="nextPhoto">❯</div>
+  
+    <div class="lightbox-thumbs" id="lightboxThumbs"></div>
+  </div>  
+
+<!-- ===== MENU POLICE NATIONALE (IDENTIQUE GRATUIT, SANS LOGO) ===== -->
+<div class="gratuit-menu police-menu" id="policeMenu">
+
+    <!-- Barre haute vide -->
+    <div class="police-topbar"></div>
+
+    <div class="gratuit-empty">
+        <i class="fa-solid fa-car-burst"></i>
+        <p>
+            Aucun véhicule disponible<br>
+            <span>pour le moment.</span>
+        </p>
+    </div>
+</div>
+
+<!-- ===== MENU GENDARMERIE NATIONALE (copie exacte du Police Nationale) ===== -->
+<div class="gratuit-menu police-menu" id="gendarmerieMenu">
+    <div class="police-topbar"></div>
+    <div class="gratuit-empty">
+        <i class="fa-solid fa-car-burst"></i> 
+        <p>
+            Aucun véhicule disponible<br>
+            <span>pour le moment.</span>
+        </p>
+    </div>
+</div>
+
+<!-- ===== MENU POLICE MUNICIPALE (copie exacte du Police Nationale) ===== -->
+<div class="gratuit-menu police-menu" id="policeMunicipaleMenu">
+    <!-- Barre haute vide -->
+    <div class="police-topbar"></div>
+
+    <div class="gratuit-empty">
+        <i class="fa-solid fa-car-burst"></i> <!-- même icône que Police Nationale -->
+        <p>
+            Aucun véhicule disponible<br>
+            <span>pour le moment.</span>
+        </p>
+    </div>
+</div>
+
+<!-- ===== MENU DOUANE (copie exacte du Police Nationale) ===== -->
+<div class="gratuit-menu police-menu" id="douaneMenu">
+    <!-- Barre haute vide -->
+    <div class="police-topbar"></div>
+
+    <div class="gratuit-empty">
+        <i class="fa-solid fa-car-burst"></i> <!-- même icône que Police Nationale -->
+        <p>
+            Aucun véhicule disponible<br>
+            <span>pour le moment.</span>
+        </p>
+    </div>
+</div>
+
+<!-- ===== MENU SAPEURS POMPIERS (copie exacte du Police Nationale) ===== -->
+<div class="gratuit-menu police-menu" id="sapeursPompiersMenu">
+    <!-- Barre haute vide -->
+    <div class="police-topbar"></div>
+
+    <div class="gratuit-empty">
+        <i class="fa-solid fa-car-burst"></i> <!-- même icône que Police Nationale -->
+        <p>
+            Aucun véhicule disponible<br>
+            <span>pour le moment.</span>
+        </p>
+    </div>
+</div>
+
+<!-- ===== MENU SAMU (copie exacte du Police Nationale) ===== -->
+<div class="gratuit-menu police-menu" id="samuMenu">
+    <!-- Barre haute vide -->
+    <div class="police-topbar"></div>
+
+    <div class="gratuit-empty">
+        <i class="fa-solid fa-car-burst"></i> <!-- même icône que Police Nationale -->
+        <p>
+            Aucun véhicule disponible<br>
+            <span>pour le moment.</span>
+        </p>
+    </div>
+</div>
+
+<!-- ===== MENU DIRIF (copie exacte du Police Nationale) ===== -->
+<div class="gratuit-menu police-menu" id="dirifMenu">
+    <!-- Barre haute vide -->
+    <div class="police-topbar"></div>
+
+    <div class="gratuit-empty">
+        <i class="fa-solid fa-car-burst"></i> <!-- même icône que Police Nationale -->
+        <p>
+            Aucun véhicule disponible<br>
+            <span>pour le moment.</span>
+        </p>
+    </div>
+</div>
+
+<!-- ===== MENU CIVIL (copie exacte du Police Nationale) ===== -->
+<div class="gratuit-menu police-menu" id="civilMenu">
+    <!-- Barre haute vide -->
+    <div class="police-topbar"></div>
+
+    <div class="gratuit-empty">
+        <i class="fa-solid fa-car-burst"></i> <!-- même icône que Police Nationale -->
+        <p>
+            Aucun véhicule disponible<br>
+            <span>pour le moment.</span>
+        </p>
+    </div>
+</div>
+
+<!-- ===== MENU AUTRES SERVICES (copie exacte du Police Nationale) ===== -->
+<div class="gratuit-menu police-menu" id="autresServicesMenu">
+    <!-- Barre haute vide -->
+    <div class="police-topbar"></div>
+
+    <div class="gratuit-empty">
+        <i class="fa-solid fa-car-burst"></i> <!-- même icône que Police Nationale -->
+        <p>
+            Aucun véhicule disponible<br>
+            <span>pour le moment.</span>
+        </p>
+    </div>
+</div>
+
+<!-- ===== MENU PACK VÉHICULES (copie exacte du Police Nationale) ===== -->
+<div class="gratuit-menu police-menu" id="packVehiculesMenu">
+    <!-- Barre haute vide -->
+    <div class="police-topbar"></div>
+
+    <div class="gratuit-empty">
+        <i class="fa-solid fa-car-burst"></i> <!-- même icône que Police Nationale -->
+        <p>
+            Aucun véhicule disponible<br>
+            <span>pour le moment.</span>
+        </p>
+    </div>
+</div>
+
+  <!-- Menu Mapping -->
+<div class="gratuit-menu" id="mappingMenu">
+    <div class="gratuit-empty">
+        <i class="fa-solid fa-map"></i>
+        <p>
+            Aucun mapping disponible <br>
+            <span>pour le moment.</span>
+        </p>
+    </div>
+  </div>
+
+  <!-- ===== MENU EUP ===== -->
+<div class="gratuit-menu" id="eupMenu">
+    <div class="gratuit-empty">
+        <i class="fa-solid fa-shirt"></i>
+        <p>
+            Aucun uniforme disponible<br>
+            <span>pour le moment.</span>
+        </p>
+    </div>
+</div>
+
+<!-- ===== MENU SCRIPT PLEIN ÉCRAN ===== -->
+<div class="script-menu" id="scriptMenu">
+    <div class="script-container">
+  
+      <h2>2 produits</h2>
+  
+      <div class="script-grid">
+  
+        <!-- PRODUIT 1 -->
+        <div class="script-card"
+             data-title="Location de véhicule"
+             data-price="10.99€"
+             data-description="
+             <p>Ce script FiveM permet d’ajouter un système complet de location de véhicules sur votre serveur.</p>
+             <p>Un NPC de location est inclus et peut être déplacé librement sur la map via les fichiers du script (par défaut à l’aéroport).</p>
+             <p>L’interaction se fait avec l’œil interactif (touche ALT). En regardant le NPC, un bouton « Demander un véhicule » apparaît et ouvre un menu de location.</p>
+             <p>Le joueur peut choisir parmi 6 véhicules par défaut, entièrement modifiables dans les fichiers du script.</p>
+             <p>Après la sélection du véhicule, il est possible de choisir la couleur ainsi que la durée de location : 1 heure, 2 heures ou 3 heures. Le prix augmente automatiquement en fonction du temps choisi.</p>
+             <p>Le paiement peut se faire en espèces ou par carte bancaire.</p>
+             <p>Une fois la location validée, le joueur apparaît directement dans le véhicule et un chronomètre s’affiche en bas à droite.</p>
+             <p>À 25 minutes restantes, le chronomètre devient jaune, puis rouge à 5 minutes restantes. À la fin du temps, le véhicule et le chronomètre disparaissent automatiquement.</p>
+             "             
+             data-images='[
+               "https://i.ibb.co/39GgpNtp/Capture-d-cran-2026-01-30-213349.png",
+               "https://i.ibb.co/s0Dg7vR/Capture-d-cran-2026-01-30-213407.png"
+             ]'>
+  
+          <img src="https://i.ibb.co/39GgpNtp/Capture-d-cran-2026-01-30-213349.png" alt="BMW moto">
+          <div class="script-info">
+            <strong>Location de véhicule</strong>
+            <span>10.99€</span>
+          </div>
+        </div>
+  
+        <!-- PRODUIT 2 -->
+        <div class="script-card"
+             data-title="Menu météo"
+             data-price="7.99€"
+             data-description="
+             <p>Ce script FiveM permet au fondateur et aux administrateurs du serveur de gérer l’heure et la météo en temps réel.</p>
+             <p>La gestion s’effectue via la commande /meteo. Lors de son utilisation, un menu s’ouvre sur la droite de l’écran.</p>
+             <p>L’accès à ce menu est strictement réservé aux administrateurs afin d’éviter toute utilisation non autorisée.</p>
+             <p>Depuis ce menu, il est possible de modifier précisément l’heure du serveur.</p>
+             <p>Un très large choix de conditions météorologiques est disponible, permettant d’adapter l’ambiance du serveur à tous les scénarios RP.</p>
+             <p>Les changements sont appliqués instantanément et synchronisés pour l’ensemble des joueurs.</p>
+             <p>Ce script est idéal pour les serveurs RP souhaitant garder un contrôle total sur la météo et le cycle horaire.</p>
+             "             
+             data-images='[
+               "https://i.ibb.co/d4Gd7TwG/Capture-d-cran-2026-01-31-221525.png",
+               "https://i.ibb.co/hJ28V1ns/Capture-d-cran-2026-01-31-221545.png",
+               "https://i.ibb.co/gFrXGkpq/Capture-d-cran-2026-01-31-221614.png"
+             ]'>
+  
+          <img src="https://i.ibb.co/d4Gd7TwG/Capture-d-cran-2026-01-31-221525.png" alt="BMW moto">
+          <div class="script-info">
+            <strong>Menu météo</strong>
+            <span>7.99€</span>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>  
+
+  <!-- VIEWER IMAGE PRODUIT -->
+<div class="product-viewer" id="productViewer">
+    <span class="close-viewer" id="closeProductViewer">✕</span>
+    <div class="viewer-arrow left" id="viewerPrev">❮</div>
+    <img id="viewerImage" src="">
+    <div class="viewer-arrow right" id="viewerNext">❯</div>
+</div>
+
+  <!-- ===== MENU PRODUIT SCRIPT (PLEIN ÉCRAN) ===== -->
+<div class="script-product-menu" id="scriptProductMenu">
+
+    <div class="product-wrapper">
+  
+      <!-- GALERIE -->
+      <div class="product-gallery">
+        <div class="product-main">
+          <button class="gallery-arrow left" onclick="prevProductImage()">❮</button>
+          <img id="productMainImage" src="">
+          <button class="gallery-arrow right" onclick="nextProductImage()">❯</button>
+        </div>
+  
+        <div class="product-thumbs" id="productThumbs"></div>
+      </div>
+  
+      <!-- INFOS -->
+      <div class="product-info">
+        <h1 id="productTitle"></h1>
+        <div class="product-price" id="productPrice"></div>
+  
+        <div class="product-description" id="productDescription"></div>
+      </div>
+  
+    </div>
+  </div>  
+  
+  <!-- ===== Menu Gratuit ===== -->
+  <div class="gratuit-menu" id="gratuitMenu">
+    <div class="gratuit-empty">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <p>
+            Aucun produit disponible<br>
+            <span>pour le moment.</span>
+        </p>
+    </div>
+</div>
+  
+<footer class="footer"> 
+<div class="footer-content"> 
+<div class="footer-left"> 
+<div class="footer-logo-container"> 
+<div class="footer-logo-img"></div> 
+<h2 class="footer-title">FrenchModding</h2> 
+</div> 
+<p class="footer-description">Site officiel de FrenchModding</p> 
+</div> 
+<div class="footer-right"> 
+<div class="footer-links"> 
+    <a href="#">Conditions Générales d'Utilisation</a>
+    <a href="#">Conditions Générales de Vente</a>    
+</div> 
+<div class="footer-social"> 
+<a href="https://www.instagram.com/_frenchmodding_?igsh=dXF5N3RoNDZtOHl3" target="_blank"> <i class="fa-brands fa-instagram"></i> </a> 
+<a href="https://www.tiktok.com/@frenchmodding_fr?is_from_webapp=1&sender_device=pc" target="_blank"> <i class="fa-brands fa-tiktok"></i> </a> 
+<a href="https://www.youtube.com/@French_Modding" target="_blank"> <i class="fa-brands fa-youtube"></i> </a> 
+<a href="https://discord.gg/wSVR8znQCW" target="_blank"> <i class="fa-brands fa-discord"></i> </a> 
+</div> 
+</div> 
+</div> 
+<div class="footer-bottom"> 
+<p class="footer-copyright">© Tous droits réservés FrenchModding 2026</p> 
+</div> 
+</footer> 
+
+<!-- ===== MENU CGU ===== -->
+<div class="cgu-menu" id="cguMenu">
+    <span class="cgu-close" id="cguClose">✕</span>
+    
+    <div class="cgu-content">
+        <h1>Conditions Générales d’Utilisation (CGU)</h1>
+    
+        <h3>1. Présentation du site</h3>
+        <p>
+            Le site <strong>FrenchModding</strong> est une plateforme française dédiée à la présentation
+            et à la mise en avant de <strong>mods FiveM 100 % français</strong>.
+        </p>
+        <p>
+            Le site est exploité par FrenchModding (ci-après « l’Éditeur »).
+        </p>
+        <p>
+            L’accès et l’utilisation du site impliquent l’acceptation pleine et entière
+            des présentes Conditions Générales d’Utilisation.
+        </p>
+    
+        <hr>
+    
+        <h3>2. Objet des CGU</h3>
+        <p>
+            Les présentes CGU ont pour objet de définir les conditions d’accès, de navigation
+            et d’utilisation du site FrenchModding.
+        </p>
+    
+        <hr>
+    
+        <h3>3. Accès au site</h3>
+        <p>
+            Le site est accessible gratuitement à tout utilisateur disposant d’un accès à Internet.
+        </p>
+        <p>
+            <strong>Aucun compte utilisateur n’est requis ni possible sur le site FrenchModding.</strong>
+        </p>
+        <p>
+            L’Éditeur se réserve le droit de suspendre ou d’interrompre l’accès au site à tout moment,
+            notamment pour maintenance ou mise à jour.
+        </p>
+    
+        <hr>
+    
+        <h3>4. Absence de comptes, cookies et paiements</h3>
+        <ul>
+            <li>Le site <strong>ne propose aucune création de compte utilisateur</strong></li>
+            <li>Le site <strong>n’utilise aucun cookie de suivi ou de collecte publicitaire</strong></li>
+            <li><strong>Aucun paiement n’est effectué sur le site internet</strong></li>
+        </ul>
+        <p>
+            Toute interaction impliquant des paiements, des accès privés ou des services spécifiques
+            est réalisée <strong>exclusivement via le serveur Discord officiel de FrenchModding</strong>,
+            selon les règles définies sur celui-ci.
+        </p>
+    
+        <hr>
+    
+        <h3>5. Contenus présentés</h3>
+        <p>
+            Le site FrenchModding a pour objectif principal :
+        </p>
+        <ul>
+            <li>La présentation des mods</li>
+            <li>La communication autour des projets</li>
+            <li>La redirection vers le serveur Discord officiel</li>
+        </ul>
+        <p>
+            Les contenus présentés sur le site sont fournis à titre informatif.
+        </p>
+    
+        <hr>
+    
+        <h3>6. Propriété intellectuelle</h3>
+        <p>
+            L’ensemble du contenu du site (textes, images, logos, visuels, design, noms de projets)
+            est la propriété exclusive de FrenchModding ou de ses partenaires.
+        </p>
+        <p>
+            Toute reproduction, représentation ou exploitation, totale ou partielle,
+            sans autorisation écrite préalable est interdite.
+        </p>
+    
+        <hr>
+    
+        <h3>7. Responsabilité</h3>
+        <p>
+            FrenchModding ne saurait être tenu responsable :
+        </p>
+        <ul>
+            <li>Des dysfonctionnements de FiveM ou de GTA V</li>
+            <li>Des éventuelles incompatibilités entre mods</li>
+            <li>
+                Des dommages directs ou indirects résultant de l’utilisation des informations
+                présentées sur le site
+            </li>
+        </ul>
+        <p>
+            L’utilisateur est seul responsable de l’utilisation qu’il fait des informations
+            et redirections proposées.
+        </p>
+    
+        <hr>
+    
+        <h3>8. Liens externes et Discord</h3>
+        <p>
+            Le site contient des liens redirigeant vers des plateformes tierces,
+            notamment <strong>Discord</strong>.
+        </p>
+        <p>
+            FrenchModding n’exerce aucun contrôle sur ces plateformes externes et décline
+            toute responsabilité concernant leur fonctionnement ou leur contenu.
+        </p>
+        <p>
+            Les règles applicables sur le serveur Discord sont définies séparément
+            et doivent être respectées par les utilisateurs.
+        </p>
+    
+        <hr>
+    
+        <h3>9. Comportement des utilisateurs</h3>
+        <p>
+            Tout comportement abusif, frauduleux ou contraire à la loi pourra entraîner
+            des mesures sur les plateformes concernées, notamment sur le serveur Discord.
+        </p>
+    
+        <hr>
+    
+        <h3>10. Données personnelles</h3>
+        <p>
+            Le site FrenchModding <strong>ne collecte aucune donnée personnelle</strong>
+            via des formulaires, comptes ou cookies.
+        </p>
+        <p>
+            Toute donnée éventuellement échangée sur Discord est soumise à la politique
+            de confidentialité de Discord.
+        </p>
+    
+        <hr>
+    
+        <h3>11. Modification des CGU</h3>
+        <p>
+            FrenchModding se réserve le droit de modifier les présentes CGU à tout moment.
+        </p>
+        <p>
+            Les utilisateurs sont invités à les consulter régulièrement.
+        </p>
+    
+        <hr>
+    
+        <h3>12. Droit applicable</h3>
+        <p>
+            Les présentes CGU sont régies par le <strong>droit français</strong>.
+        </p>
+        <p>
+            En cas de litige, les tribunaux français seront seuls compétents.
+        </p>
+    
+        <hr>
+    
+        <h3>13. Contact</h3>
+        <p>
+            Pour toute question concernant les présentes CGU, vous pouvez contacter
+            FrenchModding via le serveur Discord officiel.
+        </p>
+    
+        <hr>
+    
+        <p><em>Dernière mise à jour : 2026</em></p>
+    </div>    
+</div>
+
+<!-- ===== MENU CGV ===== -->
+<div class="cgv-menu" id="cgvMenu">
+    <span class="cgv-close" id="cgvClose">✕</span>
+    
+    <div class="cgv-content">
+        <h1>Conditions Générales de Vente (CGV)</h1>
+        
+        <h3>1. Objet</h3>
+        <p>
+            Les présentes Conditions Générales de Vente (ci-après « CGV ») régissent les ventes de contenus numériques proposés sur le site FrenchModding (mods, fichiers, scripts, packs, ressources…). Toute commande ou achat implique l'acceptation intégrale des présentes CGV.
+        </p>
+        
+        <h3>2. Produits proposés</h3>
+        <p>
+            Les produits proposés par FrenchModding sont des contenus numériques créés par l'éditeur. Pour effectuer un achat, il est nécessaire de passer par le serveur Discord. Après avoir ouvert un ticket sur le serveur et finalisé la transaction, les fichiers numériques seront envoyés directement à l'utilisateur. Les descriptions et images des produits ont pour but de présenter les contenus de manière fidèle, sans garantie d'exactitude parfaite.
+        </p>
+        
+        <h3>3. Prix</h3>
+        <p>
+            Le prix de chaque produit est toujours indiqué sur sa page. Aucune taxe supplémentaire n'est appliquée. Les tarifs restent inchangés, mais des codes de réduction peuvent être proposés de temps en temps. Pour connaître les offres et bénéficier des promotions, il est recommandé de rejoindre le serveur Discord.
+        </p>
+        
+        <h3>4. Paiement</h3>
+        <p>
+            Le seul mode de paiement accepté sur FrenchModding est PayPal. En payant via PayPal, l'Utilisateur accepte : les conditions PayPal, que le paiement doit être complet pour obtenir le fichier, que FrenchModding ne stocke aucune donnée bancaire. Le paiement PayPal est sécurisé.
+        </p>
+        
+        <h3>5. Livraison</h3>
+        <p>
+            Les produits sont des contenus numériques. Pour recevoir un fichier, il est nécessaire de passer par le serveur Discord : après avoir ouvert un ticket et finalisé l'achat, les fichiers seront envoyés directement à l'utilisateur. Le téléchargement se fait immédiatement après la confirmation de la transaction.
+        </p>
+        
+        <h3>6. Absence de droit de rétractation</h3>
+        <p>
+            En achetant un produit numérique sur FrenchModding via le serveur Discord, l'utilisateur accepte que l'achat soit définitif. Tous les achats sont non remboursables, sauf dans les cas prévus par la loi.
+        </p>
+        
+        <h3>7. Remboursements</h3>
+        <p>
+            Aucun remboursement ne sera effectué, sauf dans les cas suivants : le fichier ne se télécharge pas du tout malgré une assistance technique, erreur de facturation, problème légal exceptionnel. FrenchModding peut demander des preuves pour vérifier la demande.
+        </p>
+        
+        <h3>8. Utilisation des produits</h3>
+        <p>
+            Les contenus achetés sont destinés à un usage personnel uniquement. L'Utilisateur ne peut pas partager ou rediffuser les fichiers, les revendre, les modifier pour un usage commercial, les publier ailleurs. Toute violation est interdite et peut entraîner des sanctions.
+        </p>
+        
+        <h3>9. Responsabilité</h3>
+        <p>
+            FrenchModding n'est pas responsable : des problèmes de compatibilité avec les jeux de l'Utilisateur, des dommages causés au matériel ou logiciels, des erreurs techniques indépendantes du site, du contenu fourni par des créateurs tiers. L'Utilisateur doit vérifier la compatibilité du fichier avant l'achat.
+        </p>
+        
+        <h3>10. Propriété intellectuelle</h3>
+        <p>
+            Tous les contenus vendus sont protégés par le droit d'auteur. L'achat donne seulement un droit d'utilisation personnelle, pas un droit de propriété. Toute reproduction ou diffusion non autorisée est interdite.
+        </p>
+        
+        <h3>11. Modifications des produits</h3>
+        <p>
+            FrenchModding peut modifier, mettre à jour ou retirer un produit si nécessaire (corrections, mises à jour, demande d'un auteur tiers…).
+        </p>
+        
+        <h3>12. Modification des CGV</h3>
+        <p>
+            Les présentes CGV peuvent être mises à jour à tout moment. La version applicable est celle affichée au moment de l'achat.
+        </p>
+        
+        <h3>13. Droit applicable</h3>
+        <p>
+            Les présentes CGV sont soumises au droit France. En cas de litige, les tribunaux compétents seront ceux du ressort du siège de l'éditeur.
+        </p>
+    </div>
+</div>
+
+<!-- MENU INFORMATION -->
+<div id="infoMenu" class="info-menu">
+    <!-- PREMIÈRE SECTION : PROFILS -->
+    <div class="info-profiles">
+        <h1 class="info-title">Notre équipe</h1>
+        
+        <div class="info-content">
+            <div class="info-card">
+                <div class="avatar">
+                    <img src="https://i.ibb.co/67HXnFY0/image.png" alt="Nolan">
+                </div>
+                <h2>Nolan</h2>
+                <p>Fondateur</p>
+            </div>
+
+            <div class="info-card">
+                <div class="avatar">
+                    <img src="https://i.ibb.co/gFF9GQXP/Whats-App-Image-2026-01-31-at-22-04-25.jpg" alt="Léo">
+                </div>
+                <h2>Léo</h2>
+                <p>Co-Fondateur</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DEUXIÈME SECTION : NOS LOGICIELS -->
+    <section class="logiciels">
+        <div class="logiciels-content">
+            <h2>NOS LOGICIELS</h2>
+            
+            <div class="logiciels-grid">
+                <!-- FiveM -->
+                <div class="logiciel-card">
+                    <div class="logiciel-icon" style="background: linear-gradient(135deg, #ff6b35, #ff8c42);">
+                        <i class="fa-solid fa-road"></i>
+                    </div>
+                    <h3>FiveM</h3>
+                    <p>Serveur Test</p>
+                </div>
+
+                <!-- OpenIV -->
+                <div class="logiciel-card">
+                    <div class="logiciel-icon" style="background: linear-gradient(135deg, #f4f4f4, #e0e0e0); color: #333;">
+                        <span style="font-weight: 900; font-size: 32px;">IV</span>
+                    </div>
+                    <h3>OpenIV</h3>
+                    <p>Création & Gestion –<br>Fichiers et textures</p>
+                </div>
+
+                <!-- Photoshop -->
+                <div class="logiciel-card">
+                    <div class="logiciel-icon" style="background: linear-gradient(135deg, #31a8ff, #0078d4);">
+                        <span style="font-weight: 700; font-size: 32px;">Ps</span>
+                    </div>
+                    <h3>Photoshop</h3>
+                    <p>Design & textures</p>
+                </div>
+
+                <!-- zModeler 3 -->
+                <div class="logiciel-card">
+                    <div class="logiciel-icon" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: #fff;">
+                        <span style="font-weight: 900; font-size: 28px;">Z3</span>
+                    </div>
+                    <h3>zModeler 3</h3>
+                    <p>Conversion véhicules – EUP –<br>Assets – Templates personnalisés</p>
+                </div>
+
+                <!-- Blender -->
+                <div class="logiciel-card">
+                    <div class="logiciel-icon" style="background: linear-gradient(135deg, #ff8c42, #ff6b35);">
+                        <i class="fa-solid fa-cube"></i>
+                    </div>
+                    <h3>Blender</h3>
+                    <p>Création 3D –<br>Visualisation 3D</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+/* ===== VARIABLES GLOBALES ===== */
+const navbar = document.getElementById('navbar');
+const photosMenu = document.getElementById('photosMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+const gratuitMenu = document.getElementById('gratuitMenu');
+const eupMenu = document.getElementById('eupMenu');
+const mappingMenu = document.getElementById('mappingMenu');
+const policeMenu = document.getElementById('policeMenu');
+const gendarmerieMenu = document.getElementById('gendarmerieMenu');
+const policeMunicipaleMenu = document.getElementById('policeMunicipaleMenu');
+const douaneMenu = document.getElementById('douaneMenu');
+const sapeursPompiersMenu = document.getElementById('sapeursPompiersMenu');
+const samuMenu = document.getElementById('samuMenu');
+const dirifMenu = document.getElementById('dirifMenu');
+const civilMenu = document.getElementById('civilMenu');
+const autresServicesMenu = document.getElementById('autresServicesMenu');
+const packVehiculesMenu = document.getElementById('packVehiculesMenu');
+const scriptMenu = document.getElementById('scriptMenu');
+const scriptProductMenu = document.getElementById('scriptProductMenu');
+
+let lastScroll = 0;
+
+/* ===== NAVBAR SCROLL ===== */
+function handleNavbarScroll(scrollContainer) {
+    const currentScroll = scrollContainer.scrollTop || scrollContainer.pageYOffset;
+
+    if (currentScroll <= 0) {
+        navbar.classList.remove('hidden');
+        lastScroll = 0;
+        return;
+    }
+
+    if (currentScroll > lastScroll && currentScroll > 50) {
+        navbar.classList.add('hidden');
+    } else if (currentScroll < lastScroll) {
+        navbar.classList.remove('hidden');
+    }
+
+    lastScroll = currentScroll;
+}
+
+window.addEventListener('scroll', () => handleNavbarScroll(window));
+photosMenu.addEventListener('scroll', () => handleNavbarScroll(photosMenu));
+
+/* ===== FERMETURE GLOBALE DES MENUS ===== */
+function closeAllMenus() {
+    photosMenu.classList.remove('active');
+    gratuitMenu.classList.remove('active');
+    eupMenu.classList.remove('active');
+    mappingMenu.classList.remove('active');
+    policeMenu.classList.remove('active');
+    gendarmerieMenu.classList.remove('active');
+    policeMunicipaleMenu.classList.remove('active');
+    douaneMenu.classList.remove('active');
+    sapeursPompiersMenu.classList.remove('active');
+    samuMenu.classList.remove('active');
+    dirifMenu.classList.remove('active');
+    civilMenu.classList.remove('active');
+    autresServicesMenu.classList.remove('active');
+    packVehiculesMenu.classList.remove('active');
+    scriptMenu.classList.remove('active');
+    scriptProductMenu.classList.remove('active');
+    cguMenu.classList.remove('active');
+    cgvMenu.classList.remove('active');
+    infoMenu.classList.remove('active');
+
+    document.body.style.overflow = 'auto';
+
+    // ✅ CORRECTION : Toujours replacer le footer dans le body principal
+    const footer = document.querySelector('.footer');
+    if (footer) {
+        // Réinitialiser les styles
+        footer.style.position = '';
+        footer.style.bottom = '';
+        footer.style.left = '';
+        footer.style.width = '';
+        
+        // Replacer dans le body principal si ce n'est pas déjà le cas
+        if (!document.body.contains(footer) || footer.parentElement !== document.body) {
+            document.body.appendChild(footer);
+        }
+    }
+}
+
+/* ===== MENU MOBILE ===== */
+const menuToggle = document.getElementById('menuToggle');
+const mobilemenu = document.getElementById('mobileMenu');
+const closeMenu = document.getElementById('closeMenu');
+
+menuToggle.addEventListener('click', () => {
+    mobileMenu.classList.add('active');
+    document.body.style.overflow = 'hidden';
+});
+
+closeMenu.addEventListener('click', () => {
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = 'auto';
+    const dropdown = document.querySelector('.mobile-menu .dropdown-menu');
+    if (dropdown) {
+        dropdown.classList.remove('active');
+    }
+});
+
+// Gestion du dropdown Véhicule en mobile
+document.addEventListener('DOMContentLoaded', function() {
+    const vehiculeBtnMobile = document.getElementById('vehiculeBtnMobile');
+    const photosBtnMobile = document.getElementById('photosBtnMobile');
+    const gratuitBtnMobile = document.getElementById('gratuitBtnMobile');
+    const informationBtnMobile = document.getElementById('informationBtnMobile');
+    
+    // Dropdown véhicule
+    if (vehiculeBtnMobile) {
+        vehiculeBtnMobile.addEventListener('click', function(e) {
+            e.preventDefault();
+            const dropdown = this.nextElementSibling;
+            
+            if (dropdown && dropdown.classList.contains('dropdown-menu')) {
+                dropdown.classList.toggle('active');
+            }
+        });
+    }
+    
+    // Bouton Photos mobile
+    if (photosBtnMobile) {
+        photosBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openPhotosMenu(e);
+        });
+    }
+    
+    // Bouton Gratuit mobile
+    if (gratuitBtnMobile) {
+        gratuitBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openGratuitMenu(e);
+        });
+    }
+    
+    // Bouton Information mobile
+    if (informationBtnMobile) {
+        informationBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openInfoMenu(e);
+        });
+    }
+    
+    // Tous les liens du dropdown véhicule mobile
+    const policenationaleBtnMobile = document.getElementById('policenationaleBtnMobile');
+    const gendarmerieBtnMobile = document.getElementById('gendarmerieBtnMobile');
+    const policeMunicipaleBtnMobile = document.getElementById('policeMunicipaleBtnMobile');
+    const douaneBtnMobile = document.getElementById('douaneBtnMobile');
+    const sapeursPompiersBtnMobile = document.getElementById('sapeursPompiersBtnMobile');
+    const samuBtnMobile = document.getElementById('samuBtnMobile');
+    const dirifBtnMobile = document.getElementById('dirifBtnMobile');
+    const civilBtnMobile = document.getElementById('civilBtnMobile');
+    const autresServicesBtnMobile = document.getElementById('autresServicesBtnMobile');
+    const packVehiculesBtnMobile = document.getElementById('packVehiculesBtnMobile');
+    
+    if (policenationaleBtnMobile) {
+        policenationaleBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openPoliceMenu(e);
+        });
+    }
+    
+    if (gendarmerieBtnMobile) {
+        gendarmerieBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openGendarmerieMenu(e);
+        });
+    }
+    
+    if (policeMunicipaleBtnMobile) {
+        policeMunicipaleBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openPoliceMunicipaleMenu(e);
+        });
+    }
+    
+    if (douaneBtnMobile) {
+        douaneBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openDouaneMenu(e);
+        });
+    }
+    
+    if (sapeursPompiersBtnMobile) {
+        sapeursPompiersBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openSapeursPompiersMenu(e);
+        });
+    }
+    
+    if (samuBtnMobile) {
+        samuBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openSamuMenu(e);
+        });
+    }
+    
+    if (dirifBtnMobile) {
+        dirifBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openDirifMenu(e);
+        });
+    }
+    
+    if (civilBtnMobile) {
+        civilBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openCivilMenu(e);
+        });
+    }
+    
+    if (autresServicesBtnMobile) {
+        autresServicesBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openAutresServicesMenu(e);
+        });
+    }
+    
+    if (packVehiculesBtnMobile) {
+        packVehiculesBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openPackVehiculesMenu(e);
+        });
+    }
+    
+    // Mapping et EUP et Script mobile
+    const mappingBtnMobile = Array.from(document.querySelectorAll('#mobileMenu a')).find(a => a.textContent.trim() === 'Mapping');
+    const eupBtnMobile = Array.from(document.querySelectorAll('#mobileMenu a')).find(a => a.textContent.trim() === 'EUP');
+    const scriptBtnMobile = Array.from(document.querySelectorAll('#mobileMenu a')).find(a => a.textContent.trim() === 'Script');
+    
+    if (mappingBtnMobile) {
+        mappingBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openMappingMenu(e);
+        });
+    }
+    
+    if (eupBtnMobile) {
+        eupBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openEupMenu(e);
+        });
+    }
+    
+    if (scriptBtnMobile) {
+        scriptBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.remove('active');
+            openScriptMenu(e);
+        });
+    }
+});
+
+/* ===== MENU PHOTOS ===== */
+const photosBtn = document.getElementById('photosBtn');
+const photosBtnMobile = document.getElementById('photosBtnMobile');
+
+function openPhotosMenu(e) {
+    e.preventDefault();
+    closeAllMenus();
+    photosMenu.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // ✅ Scroll en haut du menu AVANT de déplacer le footer
+    photosMenu.scrollTop = 0;
+    window.scrollTo(0, 0);
+
+    const footer = document.querySelector('.footer');
+    if (footer && !photosMenu.contains(footer)) {
+        photosMenu.appendChild(footer);
+    }
+
+    adjustFooterPosition();
+}
+
+if (photosBtn) photosBtn.addEventListener('click', openPhotosMenu);
+if (photosBtnMobile) photosBtnMobile.addEventListener('click', openPhotosMenu);
+
+function adjustFooterPosition() {
+    const footer = document.querySelector('.footer');
+    if (!footer) return;
+
+    const photosContainer = photosMenu.querySelector('.photos-container');
+    const footerHeight = footer.offsetHeight;
+    const menuHeight = photosMenu.clientHeight;
+    const containerHeight = photosContainer ? photosContainer.offsetHeight : 0;
+
+    if (containerHeight + footerHeight < menuHeight) {
+        footer.style.position = 'absolute';
+        footer.style.bottom = '0';
+        footer.style.left = '0';
+        footer.style.width = '100%';
+    } else {
+        footer.style.position = 'static';
+    }
+}
+
+window.addEventListener('resize', adjustFooterPosition);
+photosMenu.addEventListener('scroll', adjustFooterPosition);
+
+/* ===== LIGHTBOX PHOTOS ===== */
+const photoItems = document.querySelectorAll('.photo-item img');
+const lightbox = document.getElementById('lightbox');
+const lightboxImage = document.getElementById('lightboxImage');
+const lightboxClose = document.getElementById('lightboxClose');
+const prevPhoto = document.getElementById('prevPhoto');
+const nextPhoto = document.getElementById('nextPhoto');
+
+let currentIndex = 0;
+const images = Array.from(photoItems).map(img => img.src);
+
+photoItems.forEach(img => {
+    img.addEventListener('click', () => {
+        currentIndex = images.indexOf(img.src);
+        openLightbox();
+    });
+});
+
+function openLightbox() {
+    lightbox.classList.add('active');
+    showImage('right');
+    document.body.style.overflow = 'hidden';
+
+    // ❌ Cacher la navbar définitivement
+    hideNavbarForce();
+}
+
+function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = 'auto';
+
+    // ✅ Réafficher la navbar
+    showNavbarForce();
+}
+
+lightboxClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+prevPhoto.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    showImage('left');
+});
+
+nextPhoto.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    showImage('right');
+});
+
+document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') prevPhoto.click();
+    if (e.key === 'ArrowRight') nextPhoto.click();
+});
+
+function showImage(direction) {
+    lightboxImage.classList.remove('slide-left-enter', 'slide-right-enter', 'slide-active');
+    void lightboxImage.offsetWidth;
+    lightboxImage.src = images[currentIndex];
+    lightboxImage.classList.add(direction === 'left' ? 'slide-left-enter' : 'slide-right-enter');
+    requestAnimationFrame(() => lightboxImage.classList.add('slide-active'));
+}
+
+/* ===== BOUTON ACCUEIL ===== */
+document.querySelectorAll('a').forEach(link => {
+    if (link.textContent.trim() === 'Accueil') {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            closeAllMenus();
+            window.scrollTo(0, 0);
+        });
+    }
+});
+    
+    /* ===== MENU GRATUIT ===== */
+    const gratuitBtn = document.getElementById('gratuitBtn');
+    const gratuitBtnMobile = document.getElementById('gratuitBtnMobile');
+    
+    function openGratuitMenu(e) {
+        e.preventDefault();
+        closeAllMenus();
+        gratuitMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    if (gratuitBtn) gratuitBtn.addEventListener('click', openGratuitMenu);
+    if (gratuitBtnMobile) gratuitBtnMobile.addEventListener('click', openGratuitMenu);
+    
+    /* ===== MENU EUP ===== */
+    const eupBtn = Array.from(document.querySelectorAll('a'))
+        .find(a => a.textContent.trim() === 'EUP');
+    
+    function openEupMenu(e) {
+        e.preventDefault();
+        closeAllMenus();
+        eupMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    if (eupBtn) eupBtn.addEventListener('click', openEupMenu);
+    
+    /* ===== MENU MAPPING ===== */
+    const mappingBtn = Array.from(document.querySelectorAll('a'))
+        .find(a => a.textContent.trim() === 'Mapping');
+    
+    const mappingBtnMobile = Array.from(document.querySelectorAll('#mobileMenu a'))
+        .find(a => a.textContent.trim() === 'Mapping');
+    
+    function openMappingMenu(e) {
+        e.preventDefault();
+        closeAllMenus();
+        mappingMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    if (mappingBtn) mappingBtn.addEventListener('click', openMappingMenu);
+    if (mappingBtnMobile) mappingBtnMobile.addEventListener('click', openMappingMenu);
+    
+    /* ===== MENU POLICE NATIONALE ===== */
+    const policeBtn = document.getElementById('policenationaleBtn');
+    
+    function openPoliceMenu(e) {
+        e.preventDefault();
+        closeAllMenus();
+        policeMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    if (policeBtn) policeBtn.addEventListener('click', openPoliceMenu);
+    
+    /* ===== MENU GENDARMERIE NATIONALE ===== */
+    const gendarmerieBtn = document.getElementById('gendarmerieBtn');
+    
+    function openGendarmerieMenu(e) {
+        e.preventDefault();
+        closeAllMenus();
+        gendarmerieMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    if (gendarmerieBtn) gendarmerieBtn.addEventListener('click', openGendarmerieMenu);
+    
+    /* ===== MENU POLICE MUNICIPALE ===== */
+    const policeMunicipaleBtn = document.getElementById('policeMunicipaleBtn');
+    
+    function openPoliceMunicipaleMenu(e) {
+        e.preventDefault();
+        closeAllMenus();
+        policeMunicipaleMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    if (policeMunicipaleBtn) policeMunicipaleBtn.addEventListener('click', openPoliceMunicipaleMenu);
+    
+    /* ===== MENU DOUANE ===== */
+    const douaneBtn = document.getElementById('douaneBtn');
+    
+    function openDouaneMenu(e) {
+        e.preventDefault();
+        closeAllMenus();
+        douaneMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    if (douaneBtn) douaneBtn.addEventListener('click', openDouaneMenu);
+    
+    /* ===== MENU SAPEURS POMPIERS ===== */
+    const sapeursPompiersBtn = document.getElementById('sapeursPompiersBtn');
+    
+    function openSapeursPompiersMenu(e) {
+        e.preventDefault();
+        closeAllMenus();
+        sapeursPompiersMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    if (sapeursPompiersBtn) sapeursPompiersBtn.addEventListener('click', openSapeursPompiersMenu);
+    
+    /* ===== MENU SAMU ===== */
+    const samuBtn = document.getElementById('samuBtn');
+    
+    function openSamuMenu(e) {
+        e.preventDefault();
+        closeAllMenus();
+        samuMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    if (samuBtn) samuBtn.addEventListener('click', openSamuMenu);
+    
+    /* ===== MENU DIRIF ===== */
+    const dirifBtn = document.getElementById('dirifBtn');
+    
+    function openDirifMenu(e) {
+        e.preventDefault();
+        closeAllMenus();
+        dirifMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    if (dirifBtn) dirifBtn.addEventListener('click', openDirifMenu);
+    
+    /* ===== MENU CIVIL ===== */
+    const civilBtn = document.getElementById('civilBtn');
+    
+    function openCivilMenu(e) {
+        e.preventDefault();
+        closeAllMenus();
+        civilMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    if (civilBtn) civilBtn.addEventListener('click', openCivilMenu);
+    
+    /* ===== MENU AUTRES SERVICES ===== */
+    const autresServicesBtn = document.getElementById('autresServicesBtn');
+    
+    function openAutresServicesMenu(e) {
+        e.preventDefault();
+        closeAllMenus();
+        autresServicesMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    if (autresServicesBtn) autresServicesBtn.addEventListener('click', openAutresServicesMenu);
+    
+    /* ===== MENU PACK VÉHICULES ===== */
+    const packVehiculesBtn = document.getElementById('packVehiculesBtn');
+    
+    function openPackVehiculesMenu(e) {
+        e.preventDefault();
+        closeAllMenus();
+        packVehiculesMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    if (packVehiculesBtn) packVehiculesBtn.addEventListener('click', openPackVehiculesMenu);
+    
+    /* ===== MENU SCRIPT ===== */
+    const scriptBtn = Array.from(document.querySelectorAll('a'))
+        .find(a => a.textContent.trim() === 'Script');
+    
+        function openScriptMenu(e) {
+    e.preventDefault();
+    closeAllMenus();
+    
+    // ✅ Scroll en haut AVANT d'afficher le menu
+    scriptMenu.scrollTop = 0;
+    window.scrollTo(0, 0);
+    
+    scriptMenu.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    /* ✅ Déplacer le footer dans le menu script */
+    const footer = document.querySelector('.footer');
+    if (footer && !scriptMenu.contains(footer)) {
+        scriptMenu.appendChild(footer);
+    }
+    
+    adjustScriptFooterPosition();
+}
+    
+    if (scriptBtn) scriptBtn.addEventListener('click', openScriptMenu);
+    
+    /* ✅ Ajuster position footer dans menu script */
+    function adjustScriptFooterPosition() {
+        const footer = document.querySelector('.footer');
+        if (!footer || !scriptMenu.classList.contains('active')) return;
+
+        const scriptContainer = scriptMenu.querySelector('.script-container') || scriptMenu;
+        const footerHeight = footer.offsetHeight;
+        const menuHeight = scriptMenu.clientHeight;
+        const containerHeight = scriptContainer.offsetHeight;
+
+        if (containerHeight + footerHeight < menuHeight) {
+            footer.style.position = 'absolute';
+            footer.style.bottom = '0';
+            footer.style.left = '0';
+            footer.style.width = '100%';
+        } else {
+            footer.style.position = 'static';
+        }
+    }
+    
+    /* ✅ Ajuster position footer dans menu produit */
+    function adjustProductFooterPosition() {
+        const footer = document.querySelector('.footer');
+        if (!footer || !scriptProductMenu.classList.contains('active')) return;
+
+        const productContainer = scriptProductMenu.querySelector('.product-container') || scriptProductMenu;
+        const footerHeight = footer.offsetHeight;
+        const menuHeight = scriptProductMenu.clientHeight;
+        const containerHeight = productContainer.offsetHeight;
+
+        if (containerHeight + footerHeight < menuHeight) {
+            footer.style.position = 'absolute';
+            footer.style.bottom = '0';
+            footer.style.left = '0';
+            footer.style.width = '100%';
+        } else {
+            footer.style.position = 'static';
+        }
+    }
+
+    /* ✅ Event listeners pour le menu script et produit */
+    window.addEventListener('resize', () => {
+        if (scriptMenu.classList.contains('active')) {
+            adjustScriptFooterPosition();
+        }
+        if (scriptProductMenu.classList.contains('active')) {
+            adjustProductFooterPosition();
+        }
+    });
+
+    scriptMenu.addEventListener('scroll', adjustScriptFooterPosition);
+    scriptProductMenu.addEventListener('scroll', adjustProductFooterPosition);
+    
+    /* ===== MENU PRODUIT DYNAMIQUE ===== */
+    const productTitle = document.getElementById('productTitle');
+    const productPrice = document.getElementById('productPrice');
+    const productDescription = document.getElementById('productDescription');
+    const productMainImage = document.getElementById('productMainImage');
+    const productThumbs = document.getElementById('productThumbs');
+    
+    let productImages = [];
+    let productIndex = 0;
+    
+    /* OUVERTURE SELON PRODUIT */
+    document.querySelectorAll('.script-card').forEach(card => {
+        card.addEventListener('click', () => {
+    
+            productTitle.innerHTML = card.dataset.title;
+            productPrice.innerHTML = card.dataset.price;
+            productDescription.innerHTML = card.dataset.description;
+    
+            productImages = JSON.parse(card.dataset.images);
+            productIndex = 0;
+    
+            productMainImage.src = productImages[0];
+            productThumbs.innerHTML = '';
+    
+            productImages.forEach((img, i) => {
+                const thumb = document.createElement('img');
+                thumb.src = img;
+                if (i === 0) thumb.classList.add('active');
+    
+                thumb.addEventListener('click', () => {
+                    productIndex = i;
+                    updateProductImage();
+                });
+    
+                productThumbs.appendChild(thumb);
+            });
+    
+            closeAllMenus();
+            scriptProductMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // ✅ Scroll en haut AVANT de déplacer le footer
+            scriptProductMenu.scrollTop = 0;
+            
+            /* ✅ Déplacer le footer dans le menu produit */
+            const footer = document.querySelector('.footer');
+            if (footer && !scriptProductMenu.contains(footer)) {
+                scriptProductMenu.appendChild(footer);
+            }
+            
+            adjustProductFooterPosition();
+        });
+    });
+    
+    /* NAVIGATION IMAGES PRODUIT */
+    function updateProductImage() {
+        productMainImage.src = productImages[productIndex];
+        document.querySelectorAll('#productThumbs img').forEach((img, i) => {
+            img.classList.toggle('active', i === productIndex);
+        });
+    }
+    
+    function prevProductImage() {
+        productIndex = (productIndex - 1 + productImages.length) % productImages.length;
+        updateProductImage();
+    }
+    
+    function nextProductImage() {
+        productIndex = (productIndex + 1) % productImages.length;
+        updateProductImage();
+    }
+    
+    /* ===== VIEWER IMAGE PRODUIT ===== */
+const productViewer = document.getElementById('productViewer');
+const viewerImage = document.getElementById('viewerImage');
+const closeProductViewer = document.getElementById('closeProductViewer');
+const viewerPrev = document.getElementById('viewerPrev');
+const viewerNext = document.getElementById('viewerNext');
+
+let viewerImages = [];
+let viewerIndex = 0;
+
+/* CLIC SUR LA GRANDE IMAGE - VERSION CORRIGÉE */
+document.body.addEventListener('click', function (e) {
+    if (e.target && e.target.id === 'productMainImage') {
+        e.preventDefault();
+        e.stopPropagation();
+        viewerImages = productImages;
+        viewerIndex = productIndex;
+        openViewer();
+    }
+});
+
+/* OUVERTURE VIEWER */
+function openViewer() {
+    if (!viewerImages || viewerImages.length === 0) return;
+    viewerImage.src = viewerImages[viewerIndex];
+    productViewer.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+/* FERMETURE VIEWER */
+function closeViewer() {
+    productViewer.classList.remove('active');
+    document.body.style.overflow = 'hidden'; // Garde le menu produit ouvert
+}
+
+/* NAVIGATION VIEWER */
+viewerPrev.onclick = () => {
+    viewerIndex = (viewerIndex - 1 + viewerImages.length) % viewerImages.length;
+    viewerImage.src = viewerImages[viewerIndex];
+};
+
+viewerNext.onclick = () => {
+    viewerIndex = (viewerIndex + 1) % viewerImages.length;
+    viewerImage.src = viewerImages[viewerIndex];
+};
+
+/* BOUTON FERMER */
+closeProductViewer.onclick = closeViewer;
+
+/* CLIC EN DEHORS DE L'IMAGE */
+productViewer.addEventListener('click', e => {
+    if (e.target === productViewer) closeViewer();
+});
+
+/* NAVIGATION AU CLAVIER */
+document.addEventListener('keydown', e => {
+    if (!productViewer || !productViewer.classList.contains('active')) return;
+    if (e.key === 'Escape') closeViewer();
+    if (e.key === 'ArrowLeft') viewerPrev.click();
+    if (e.key === 'ArrowRight') viewerNext.click();
+});
+
+/* ===== MENU CGU ===== */
+const cguMenu = document.getElementById('cguMenu');
+const cguClose = document.getElementById('cguClose');
+
+// ✅ Variable pour mémoriser le menu précédent
+let previousMenuBeforeCGU = null;
+
+function openCguMenu(e) {
+    e.preventDefault();
+    if (!cguMenu) return;
+    
+    // ✅ Mémoriser quel menu était actif
+    if (photosMenu.classList.contains('active')) {
+        previousMenuBeforeCGU = photosMenu;
+    } else if (scriptMenu.classList.contains('active')) {
+        previousMenuBeforeCGU = scriptMenu;
+    } else if (scriptProductMenu.classList.contains('active')) {
+        previousMenuBeforeCGU = scriptProductMenu;
+    } else if (infoMenu.classList.contains('active')) {
+        previousMenuBeforeCGU = infoMenu;
+    } else {
+        previousMenuBeforeCGU = null;
+    }
+    
+    closeAllMenus();
+    cguMenu.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Scroll en haut
+    cguMenu.scrollTop = 0;
+    
+    // Cacher la navbar
+    if (navbar) navbar.style.display = 'none';
+}
+
+function closeCguMenu() {
+    if (!cguMenu) return;
+    
+    cguMenu.classList.remove('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Réafficher la navbar
+    if (navbar) navbar.style.display = 'flex';
+    
+    // ✅ Réouvrir le menu précédent
+    if (previousMenuBeforeCGU) {
+        previousMenuBeforeCGU.classList.add('active');
+        
+        const footer = document.querySelector('.footer');
+        if (footer) {
+            footer.style.position = '';
+            footer.style.bottom = '';
+            footer.style.left = '';
+            footer.style.width = '';
+            
+            // Replacer le footer dans le bon menu
+            if (previousMenuBeforeCGU === photosMenu) {
+                photosMenu.appendChild(footer);
+                adjustFooterPosition();
+            } else if (previousMenuBeforeCGU === scriptMenu) {
+                scriptMenu.appendChild(footer);
+                adjustScriptFooterPosition();
+            } else if (previousMenuBeforeCGU === scriptProductMenu) {
+                scriptProductMenu.appendChild(footer);
+                adjustProductFooterPosition();
+            } else if (previousMenuBeforeCGU === infoMenu) {
+                infoMenu.appendChild(footer);
+            }
+        }
+    } else {
+        // Aucun menu précédent, retour à l'accueil
+        document.body.style.overflow = 'auto';
+        
+        const footer = document.querySelector('.footer');
+        if (footer) {
+            footer.style.position = '';
+            footer.style.bottom = '';
+            footer.style.left = '';
+            footer.style.width = '';
+            
+            if (!document.body.contains(footer) || footer.parentElement !== document.body) {
+                document.body.appendChild(footer);
+            }
+        }
+    }
+}
+
+const cguBtn = Array.from(document.querySelectorAll('.footer-links a')).find(a => a.textContent.trim() === 'Conditions Générales d\'Utilisation');
+
+if (cguBtn) cguBtn.addEventListener('click', openCguMenu);
+if (cguClose) cguClose.addEventListener('click', closeCguMenu);
+
+/* ===== MENU CGV ===== */
+const cgvMenu = document.getElementById('cgvMenu');
+const cgvClose = document.getElementById('cgvClose');
+
+// ✅ Variable pour mémoriser le menu précédent
+let previousMenuBeforeCGV = null;
+
+function openCgvMenu(e) {
+    e.preventDefault();
+    if (!cgvMenu) return;
+    
+    // ✅ Mémoriser quel menu était actif
+    if (photosMenu.classList.contains('active')) {
+        previousMenuBeforeCGV = photosMenu;
+    } else if (scriptMenu.classList.contains('active')) {
+        previousMenuBeforeCGV = scriptMenu;
+    } else if (scriptProductMenu.classList.contains('active')) {
+        previousMenuBeforeCGV = scriptProductMenu;
+    } else if (infoMenu.classList.contains('active')) {
+        previousMenuBeforeCGV = infoMenu;
+    } else {
+        previousMenuBeforeCGV = null;
+    }
+    
+    closeAllMenus();
+    cgvMenu.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Scroll en haut
+    cgvMenu.scrollTop = 0;
+    
+    // Cacher la navbar
+    if (navbar) navbar.style.display = 'none';
+}
+
+function closeCgvMenu() {
+    if (!cgvMenu) return;
+    
+    cgvMenu.classList.remove('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Réafficher la navbar
+    if (navbar) navbar.style.display = 'flex';
+    
+    // ✅ Réouvrir le menu précédent
+    if (previousMenuBeforeCGV) {
+        previousMenuBeforeCGV.classList.add('active');
+        
+        const footer = document.querySelector('.footer');
+        if (footer) {
+            footer.style.position = '';
+            footer.style.bottom = '';
+            footer.style.left = '';
+            footer.style.width = '';
+            
+            // Replacer le footer dans le bon menu
+            if (previousMenuBeforeCGV === photosMenu) {
+                photosMenu.appendChild(footer);
+                adjustFooterPosition();
+            } else if (previousMenuBeforeCGV === scriptMenu) {
+                scriptMenu.appendChild(footer);
+                adjustScriptFooterPosition();
+            } else if (previousMenuBeforeCGV === scriptProductMenu) {
+                scriptProductMenu.appendChild(footer);
+                adjustProductFooterPosition();
+            } else if (previousMenuBeforeCGV === infoMenu) {
+                infoMenu.appendChild(footer);
+            }
+        }
+    } else {
+        // Aucun menu précédent, retour à l'accueil
+        document.body.style.overflow = 'auto';
+        
+        const footer = document.querySelector('.footer');
+        if (footer) {
+            footer.style.position = '';
+            footer.style.bottom = '';
+            footer.style.left = '';
+            footer.style.width = '';
+            
+            if (!document.body.contains(footer) || footer.parentElement !== document.body) {
+                document.body.appendChild(footer);
+            }
+        }
+    }
+}
+
+const cgvBtn = Array.from(document.querySelectorAll('.footer-links a')).find(a => a.textContent.trim() === 'Conditions Générales de Vente');
+
+if (cgvBtn) cgvBtn.addEventListener('click', openCgvMenu);
+if (cgvClose) cgvClose.addEventListener('click', closeCgvMenu);
+
+/* ===== FERMETURE AVEC ÉCHAP ===== */
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        if (cguMenu && cguMenu.classList.contains('active')) {
+            closeCguMenu();
+        }
+        if (cgvMenu && cgvMenu.classList.contains('active')) {
+            closeCgvMenu();
+        }
+    }
+});
+
+/* ===== MENU INFORMATION ===== */
+const informationBtn = document.getElementById('informationBtn');
+const infoMenu = document.getElementById('infoMenu');
+
+function openInfoMenu(e) {
+    navbar.classList.remove('hidden');
+    e.preventDefault();
+    closeAllMenus();
+    infoMenu.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Scroll en haut du menu
+    infoMenu.scrollTop = 0;
+    
+    // ✅ Déplacer le footer dans le menu Information
+    const footer = document.querySelector('.footer');
+    if (footer && !infoMenu.contains(footer)) {
+        infoMenu.appendChild(footer);
+    }
+}
+
+if (informationBtn) informationBtn.addEventListener('click', openInfoMenu);
+
+/* ===== NAVBAR SCROLL MENU INFORMATION ===== */
+let infoLastScroll = 0;
+
+infoMenu.addEventListener('scroll', () => {
+    if (!infoMenu.classList.contains('active')) return;
+
+    const currentScroll = infoMenu.scrollTop;
+
+    // Si on est en haut → navbar visible
+    if (currentScroll <= 0) {
+        navbar.classList.remove('hidden');
+        infoLastScroll = 0;
+        return;
+    }
+
+    // Scroll vers le bas → cacher la navbar
+    if (currentScroll > infoLastScroll && currentScroll > 40) {
+        navbar.classList.add('hidden');
+    }
+    // Scroll vers le haut → afficher la navbar
+    else if (currentScroll < infoLastScroll) {
+        navbar.classList.remove('hidden');
+    }
+
+    infoLastScroll = currentScroll;
+});
+
+/* ===== FORCER NAVBAR CACHÉE DANS LIGHTBOX PHOTOS ===== */
+function hideNavbarForce() {
+    navbar.classList.add('hidden');
+}
+
+function showNavbarForce() {
+    navbar.classList.remove('hidden');
+}
+
+/* ===== SLIDE NAVBAR DANS MENU SCRIPT ===== */
+let scriptLastScroll = 0;
+
+function handleScriptNavbarScroll(scrollContainer) {
+    if (!scriptMenu.classList.contains('active') && !scriptProductMenu.classList.contains('active')) return;
+
+    const currentScroll = scrollContainer.scrollTop;
+
+    if (currentScroll <= 0) {
+        navbar.classList.remove('hidden');
+        scriptLastScroll = 0;
+        return;
+    }
+
+    if (currentScroll > scriptLastScroll && currentScroll > 20) {
+        // Scroll vers le bas → cacher navbar
+        navbar.classList.add('hidden');
+    } else if (currentScroll < scriptLastScroll) {
+        // Scroll vers le haut → afficher navbar
+        navbar.classList.remove('hidden');
+    }
+
+    scriptLastScroll = currentScroll;
+}
+
+// Événements scroll
+if (scriptMenu) scriptMenu.addEventListener('scroll', () => handleScriptNavbarScroll(scriptMenu));
+if (scriptProductMenu) scriptProductMenu.addEventListener('scroll', () => handleScriptNavbarScroll(scriptProductMenu));
+
+/* ===== MENU NOIR AUTO AVEC COEURS ET TEXTE ===== */
+const blackMenu = document.getElementById('blackMenu');
+const blackMenuClose = document.getElementById('blackMenuClose');
+const blackMenuAudio = document.getElementById('blackMenuAudio');
+const hearts = [];
+let heartInterval = null;
+const MAX_HEARTS = 300;
+
+window.addEventListener('load', () => {
+    if (!blackMenu) {
+        console.error('Élément #blackMenu introuvable');
+        return;
+    }
+
+    // MODIFICATION : Plein écran complet
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    blackMenu.style.position = 'fixed';
+    blackMenu.style.top = '0';
+    blackMenu.style.left = '0';
+    blackMenu.style.width = '100vw';
+    blackMenu.style.height = '100vh';
+    blackMenu.style.zIndex = '999999';
+
+    /* ===== TEXTE ===== */
+    const welcomeText = document.createElement('div');
+    welcomeText.className = 'welcome-text';
+    blackMenu.appendChild(welcomeText);
+
+    /* ===== SVG CŒUR (inchangé) ===== */
+    const heartSVG = `
+        <svg viewBox="0 0 32 29.6" width="100%" height="100%">
+            <path fill="#ff3b3b" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0
+            C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+            c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+        </svg>
+    `;
+
+    /* ===== CRÉATION D'UN CŒUR (inchangé) ===== */
+    function createHeart() {
+        if (hearts.length >= MAX_HEARTS) {
+            const old = hearts.shift();
+            old?.remove();
+        }
+
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = heartSVG;
+
+        const size = Math.random() * 40 + 40;
+        heart.style.width = size + 'px';
+        heart.style.height = size + 'px';
+
+        heart.style.left = Math.random() * 95 + '%';
+        heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+
+        blackMenu.appendChild(heart);
+        hearts.push(heart);
+
+        heart.addEventListener('animationend', () => {
+            heart.remove();
+            const index = hearts.indexOf(heart);
+            if (index !== -1) hearts.splice(index, 1);
+        });
+    }
+
+    /* ===== LANCEMENT DES CŒURS ===== */
+    for (let i = 0; i < 100; i++) {
+        setTimeout(createHeart, i * 100);
+    }
+    heartInterval = setInterval(createHeart, 120);
+
+    /* ===== SÉQUENCE DE TEXTES ===== */
+    const texts = [
+        `Bienvenue sur<br>Le Site Internet<br>Officiel de`,
+        `FrenchModding`,
+        `Joyeuse Saint-Valentin à Tous`
+    ];
+
+    let current = 0;
+
+    function showNextText() {
+        welcomeText.innerHTML = `<h1>${texts[current]}</h1>`;
+        welcomeText.classList.add('show');
+
+        // Disparaît après 4 secondes
+        setTimeout(() => {
+            welcomeText.classList.remove('show');
+
+            if (current < texts.length - 1) {
+                // Apparition du prochain texte après 1 seconde
+                current++;
+                setTimeout(showNextText, 1000);
+            } else {
+                // Dernier texte disparu → attendre 1 seconde puis fermer tout
+                setTimeout(() => {
+                    closeBlackMenu();
+                }, 1000);
+            }
+        }, 4000);
+    }
+
+    // Lancer la première apparition
+    setTimeout(showNextText, 100);
+
+    /* ===== LANCEMENT DE LA MUSIQUE ===== */
+    if (blackMenuAudio) {
+        blackMenuAudio.currentTime = 81; // 1:21 = 81 secondes
+        blackMenuAudio.volume = 0.5; // Volume à 50%
+
+    /* ===== CLIC SUR LA CROIX ===== */
+    if (blackMenuClose) {
+        blackMenuClose.addEventListener('click', () => {
+            closeBlackMenu();
+        });
+    }
+
+    /* ===== FERMETURE DU MENU ===== */
+    function closeBlackMenu() {
+        // Stop création des cœurs
+        if (heartInterval) clearInterval(heartInterval);
+
+        // Arrêter la musique
+        if (blackMenuAudio) {
+            blackMenuAudio.pause();
+            blackMenuAudio.currentTime = 81;
+        }
+
+        // Disparaît progressivement
+        blackMenu.style.transition = 'opacity 1s';
+        blackMenu.style.opacity = '0';
+
+        // Après transition, hide menu et réactiver scroll
+        setTimeout(() => {
+            blackMenu.style.display = 'none';
+            blackMenu.innerHTML = '';
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
+            // Ici tu peux afficher ton menu de l'accueil si nécessaire
+            const homeMenu = document.getElementById('homeMenu');
+            if (homeMenu) homeMenu.style.display = 'block';
+        }, 1000);
+    }
+}});
+
+/* ===== CLEAN SÉCURITÉ ===== */
+window.addEventListener('beforeunload', () => {
+    if (heartInterval) clearInterval(heartInterval);
+});
+
+let audioUnlocked = false;
+
+function unlockAudio() {
+    if (audioUnlocked || !blackMenuAudio) return;
+
+    blackMenuAudio.currentTime = 81;
+    blackMenuAudio.volume = 0.5;
+
+    blackMenuAudio.play().then(() => {
+        audioUnlocked = true;
+        console.log("Audio autorisé par interaction utilisateur");
+    }).catch(err => {
+        console.log("Toujours bloqué:", err);
+    });
+
+    // Nettoyage
+    document.removeEventListener('click', unlockAudio);
+    document.removeEventListener('keydown', unlockAudio);
+}
+
+// Déblocage au premier clic ou touche
+document.addEventListener('click', unlockAudio);
+document.addEventListener('keydown', unlockAudio);
+
+/* ===== LANCEMENT DE LA MUSIQUE ===== */
+function playMenuAudio() {
+    if (!blackMenuAudio) return;
+
+    blackMenuAudio.currentTime = 81; // démarrer à 1:21
+    blackMenuAudio.volume = 0.5;
+
+    // Essayer de jouer immédiatement
+    blackMenuAudio.play().catch(() => {
+        // Si bloque, débloquer via interaction utilisateur
+        console.log("Audio bloqué, attente d'interaction utilisateur");
+        document.addEventListener('click', unlockAudio);
+        document.addEventListener('keydown', unlockAudio);
+    });
+}
+
+// Appel direct dès que le menu est chargé
+playMenuAudio();
+
+</script>
+      </body>
+      </html>
